@@ -1,0 +1,87 @@
+# titanic_visualization.py
+
+# Import necessary libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Set seaborn style
+sns.set(style="darkgrid")
+
+# Load Titanic dataset
+df = sns.load_dataset('titanic')
+
+# ---------------------------------------------
+# Basic Exploration
+# ---------------------------------------------
+print("\nFirst 5 rows:\n", df.head())
+print("\nData Info:\n")
+print(df.info())
+print("\nSummary Statistics:\n", df.describe())
+print("\nMissing Values:\n", df.isnull().sum())
+
+# ---------------------------------------------
+# Visualization 1: Survival Count
+# ---------------------------------------------
+plt.figure(figsize=(6,4))
+sns.countplot(x='survived', data=df)
+plt.title("Survival Count (0 = No, 1 = Yes)")
+plt.xlabel("Survived")
+plt.ylabel("Count")
+plt.savefig("1_survival_count.png")
+plt.close()
+
+# ---------------------------------------------
+# Visualization 2: Survival by Gender
+# ---------------------------------------------
+plt.figure(figsize=(6,4))
+sns.countplot(x='sex', hue='survived', data=df)
+plt.title("Survival by Gender")
+plt.xlabel("Gender")
+plt.ylabel("Count")
+plt.savefig("2_survival_by_gender.png")
+plt.close()
+
+# ---------------------------------------------
+# Visualization 3: Survival by Passenger Class
+# ---------------------------------------------
+plt.figure(figsize=(6,4))
+sns.countplot(x='pclass', hue='survived', data=df)
+plt.title("Survival by Passenger Class")
+plt.xlabel("Passenger Class")
+plt.ylabel("Count")
+plt.savefig("3_survival_by_class.png")
+plt.close()
+
+# ---------------------------------------------
+# Visualization 4: Age Distribution
+# ---------------------------------------------
+plt.figure(figsize=(6,4))
+sns.histplot(df['age'].dropna(), kde=True, bins=30)
+plt.title("Age Distribution")
+plt.xlabel("Age")
+plt.ylabel("Frequency")
+plt.savefig("4_age_distribution.png")
+plt.close()
+
+# ---------------------------------------------
+# Visualization 5: Age vs Fare Scatter Plot
+# ---------------------------------------------
+plt.figure(figsize=(6,4))
+sns.scatterplot(x='age', y='fare', hue='survived', data=df)
+plt.title("Age vs Fare (colored by Survival)")
+plt.xlabel("Age")
+plt.ylabel("Fare")
+plt.savefig("5_age_vs_fare.png")
+plt.close()
+
+# ---------------------------------------------
+# Visualization 6: Correlation Heatmap
+# ---------------------------------------------
+plt.figure(figsize=(8,6))
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title("Correlation Heatmap")
+plt.savefig("6_correlation_heatmap.png")
+plt.close()
+
+print("\nAll plots saved as PNG files.")
